@@ -7,6 +7,7 @@ var express = require('express'),
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+app.use(express.static('../frontend/dist'));
 
 var routes = require('./api/routes/plantRoutes');
 routes(app);
