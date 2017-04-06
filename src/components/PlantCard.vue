@@ -4,6 +4,7 @@
     <p>Temperature: {{ temperature }}</p>
     <p>Humidity: {{ humidity }}</p>
     <p>Light level: {{ lightLevel }}</p>
+    <p>Soil Moisture: {{ soilMoisture }}</p>
   </div>
 </template>  
 
@@ -23,6 +24,9 @@ export default {
     },
     lightLevel: {
       default: '100%'
+    },
+    soilMoisture: {
+      default: '98%'
     }
   }
 }
