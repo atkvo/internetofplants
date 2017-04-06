@@ -1,5 +1,7 @@
 'use strict';
 
+var model = require('../models/plantModel');
+
 function getFakePlants() {
     var samplePlants = [
         {
@@ -37,3 +39,9 @@ function getFakePlants() {
 exports.getPlants = function(req, res) {
     res.json(getFakePlants());
 };
+
+exports.addPlant = function(req, res) {
+    // console.log(req.body);
+    console.log(model.getStuff());
+    res.json(req.body);
+}
