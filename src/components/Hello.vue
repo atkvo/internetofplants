@@ -37,25 +37,29 @@ export default {
             name: 'Fern',
             temperature: '40c',
             humidity: '39',
-            lightLevel: '85%'
+            lightLevel: '85%',
+            soilMoisture: '85%'
           },
           {
             name: 'AirPlant',
             temperature: '40c',
             humidity: '39',
-            lightLevel: '85%'
+            lightLevel: '85%',
+            soilMoisture: '85%'
           },
           {
             name: 'Room Plant',
             temperature: '40c',
             humidity: '39',
-            lightLevel: '85%'
+            lightLevel: '85%',
+            soilMoisture: '85%'
           },
           {
             name: 'Frontdoor Plant',
             temperature: '40c',
             humidity: '39',
-            lightLevel: '85%'
+            lightLevel: '85%',
+            soilMoisture: '85%'
           }
         ]
       }
@@ -162,7 +166,7 @@ h1, h2 {
 
 .card {
   width: 250px;
-  height: 180px;
+  // height: 180px;
   margin: 15px;
   // display: flex;
 }
