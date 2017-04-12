@@ -3,8 +3,8 @@
     <h1>{{ title }}</h1>
     <div class="graph-box">
       <plant-chart :chart-data="datacollection"></plant-chart>
-      <button @click="fillData()">Fill</button>
-      <button @click="addData()">Add</button>
+      <!-- <button @click="fillData()">Fill</button> -->
+      <button class="material-clickable-text" @click="addData()">Refresh</button>
     </div>
     <p>Temperature: {{ temperature }}</p>
     <p>Humidity: {{ humidity }}</p>
@@ -68,14 +68,11 @@ export default {
       return Math.floor(Math.random() * (50 - 5 + 1)) + 5
     },
     addData () {
-      // this.datacollection.labels.push(this.getRandomInt())
-      // this.datacollection.datasets[0].data.push(this.getRandomInt())
+      this.rawData.push(this.getRandomInt())
+      this.rawData.push(this.getRandomInt())
+      this.rawData.push(this.getRandomInt())
       this.rawData.push(this.getRandomInt())
       this.fillData()
-      // var len = this.datacollection.datasets[0].data.length
-      // this.datacollection.datasets[0].data.splice(len, 0, this.getRandomInt())
-      console.log(this.datacollection.datasets[0].data)
-      console.log(this.datacollection.labels)
     }
   }
 }
@@ -90,8 +87,17 @@ export default {
   $icon-color: rgba(255, 255, 255, 0.92);
 
 /* Global color scheme */
+  @import "buttontheme";
   @import "colorscheme";
 
+  button:hover {
+    cursor: pointer;
+    color: $accent-color-100;
+  }
+
+  button:active {
+    color: $accent-color;
+  }
   h1 {
     background: $primary-color;
     color: $icon-color;

@@ -1,0 +1,64 @@
+$primary-color: #3F51B5;
+$accent-color: #00E676;
+$accent-color-100: #69F0AE;
+$primary-text-color: rgba(0, 0, 0, 0.92);
+$icon-color: rgba(255, 255, 255, 0.92);
+
+
+@mixin transition($transition...) {
+    -webkit-transition: $transition;
+     -moz-transition: $transition;
+      -ms-transition: $transition;
+          transition: $transition;
+}
+
+@import "colorscheme";
+.material-button {
+    // background: $accent-color;
+    background: rgba(0, 0, 0, 0.0);
+    // color: $icon-color;
+    color: $primary-text-color;
+    border: 0;
+    // width: 110px;
+    font-weight: bold;
+    font-family: Arial;
+    font-size: 14px;
+}
+
+.material-button:hover {
+    cursor: pointer;
+    background: $accent-color-100;
+}
+
+.material-button:active {
+    background: $accent-color;
+}
+
+.material-clickable-text {
+    // background: $accent-color;
+    background: rgba(0, 0, 0, 0.0);
+    // color: $icon-color;
+    color: $primary-text-color;
+    border: 0;
+    // width: 110px;
+    font-weight: bold;
+    font-family: Arial;
+    font-size: 14px;
+}
+
+.material-clickable-text:hover {
+    cursor: pointer;
+    color: $accent-color-100;
+}
+
+.material-clickable-text:active {
+    color: $accent-color;
+}
+
+.material-button {
+    @include transition(all ease-out 0.2s);
+}
+
+.material-clickable-text {
+    @include transition(all ease-out 0.2s);
+}
