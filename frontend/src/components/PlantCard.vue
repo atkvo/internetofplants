@@ -4,12 +4,12 @@
     <div class="graph-box">
       <plant-chart :chart-data="datacollection"></plant-chart>
       <!-- <button @click="fillData()">Fill</button> -->
-      <button class="material-clickable-text" @click="addData()">Refresh</button>
     </div>
-    <p>Temperature: {{ temperature }}</p>
-    <p>Humidity: {{ humidity }}</p>
-    <p>Light level: {{ lightLevel }}</p>
-    <p>Soil Moisture: {{ soilMoisture }}</p>
+    <p>Temperature: <span>{{ temperature }}</span></p>
+    <p>Humidity: <span>{{ humidity }}</span></p>
+    <p>Light level: <span>{{ lightLevel }}</span></p>
+    <p>Soil Moisture: <span>{{ soilMoisture }}</span></p>
+    <button class="material-clickable-text" id="refresh" @click="addData()">Refresh</button>
   </div>
 </template>  
 
@@ -29,10 +29,10 @@ export default {
       default: '100'
     },
     lightLevel: {
-      default: '100%'
+      default: '1.00'
     },
     soilMoisture: {
-      default: '98%'
+      default: '0.98'
     }
   },
   components: {
@@ -106,7 +106,14 @@ export default {
   }
 
   p {
-    margin: 0;
+    margin: 0 0 0 10px;
+    text-align: left;
+  }
+
+  p span {
+    font-weight: bold;
+    float: right;
+    margin-right: 50px;
   }
 
   .card {
@@ -119,5 +126,11 @@ export default {
 
   .graph-box {
     background-color: $icon-color;
+  }
+
+  #refresh {
+    font-size: 18px;
+    margin: 5px;
+    float: right;
   }
 </style>
