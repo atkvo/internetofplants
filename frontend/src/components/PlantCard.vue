@@ -107,6 +107,7 @@ export default {
 
   p {
     margin: 0 0 0 10px;
+    padding-left: 35px;
     text-align: left;
   }
 
