@@ -1,6 +1,11 @@
 <template>
   <div class="card">
     <h1>{{ title }}</h1>
+    <div class="graph-box">
+      <plant-chart :chart-data="datacollection"></plant-chart>
+      <button @click="fillData()">Fill</button>
+      <button @click="addData()">Add</button>
+    </div>
     <p>Temperature: {{ temperature }}</p>
     <p>Humidity: {{ humidity }}</p>
     <p>Light level: {{ lightLevel }}</p>
@@ -9,6 +14,7 @@
 </template>  
 
 <script>
+import PlantChart from './PlantChart.vue'
 export default {
   name: 'material-button',
   props: {
@@ -27,6 +33,49 @@ export default {
     },
     soilMoisture: {
       default: '98%'
+    }
+  },
+  components: {
+    'plant-chart': PlantChart
+  },
+  data () {
+    return {
+      datacollection: null,
+      rawData: []
+    }
+  },
+  mounted () {
+    this.fillData()
+  },
+  methods: {
+    fillData () {
+      var newLabels = []
+      for (var i = 0; i < this.rawData.length; i++) {
+        newLabels.push(i)
+      }
+      this.datacollection = {
+        labels: newLabels,
+        datasets: [
+          {
+            label: 'D1',
+            backgroundColor: '#f84818',
+            data: this.rawData
+          }
+        ]
+      }
+    },
+    getRandomInt () {
+      return Math.floor(Math.random() * (50 - 5 + 1)) + 5
+    },
+    addData () {
+      // this.datacollection.labels.push(this.getRandomInt())
+      // this.datacollection.datasets[0].data.push(this.getRandomInt())
+      this.rawData.push(this.getRandomInt())
+      this.fillData()
+      // var len = this.datacollection.datasets[0].data.length
+      // this.datacollection.datasets[0].data.splice(len, 0, this.getRandomInt())
+      console.log(this.datacollection.datasets[0].data)
+      console.log(this.datacollection.labels)
     }
   }
 }
@@ -50,11 +99,19 @@ export default {
     margin: 0px;
   }
 
+  p {
+    margin: 0;
+  }
+
   .card {
     background: white;
     // width: 96%;
     // height: 40%;
     // margin: 30px auto;
     box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.4);
+  }
+
+  .graph-box {
+    background-color: $icon-color;
   }
 </style>
