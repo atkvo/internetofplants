@@ -15,7 +15,8 @@
         v-bind:title="plant.name"
         v-bind:temperature="plant.temperature"
         v-bind:humidity="plant.humidity"
-        v-bind:lightLevel="plant.lightLevel">
+        v-bind:lightLevel="plant.lightLevel"
+        v-bind:soilMoisture="plant.soilMoisture">
       </plant-card>
     </div>
     <!-- <h1>{{ msg }}</h1> -->
@@ -37,29 +38,29 @@ export default {
             name: 'Fern',
             temperature: '40c',
             humidity: '39',
-            lightLevel: '85%',
-            soilMoisture: '85%'
+            lightLevel: '.85',
+            soilMoisture: '.85'
           },
           {
             name: 'AirPlant',
             temperature: '40c',
             humidity: '39',
-            lightLevel: '85%',
-            soilMoisture: '85%'
+            lightLevel: '0.85',
+            soilMoisture: '0.85'
           },
           {
             name: 'Room Plant',
             temperature: '40c',
             humidity: '39',
-            lightLevel: '85%',
-            soilMoisture: '85%'
+            lightLevel: '.85',
+            soilMoisture: '.85'
           },
           {
             name: 'Frontdoor Plant',
             temperature: '40c',
             humidity: '39',
-            lightLevel: '85%',
-            soilMoisture: '85%'
+            lightLevel: '.85',
+            soilMoisture: '.85'
           }
         ]
       }
