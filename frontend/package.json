@@ -10,9 +10,11 @@
     "lint": "eslint --ext .js,.vue src"
   },
   "dependencies": {
+    "chart.js": "^2.5.0",
     "node-sass": "^4.5.2",
     "sass-loader": "^6.0.3",
     "vue": "^2.2.2",
+    "vue-chartjs": "^2.6.0",
     "vue-router": "^2.2.0"
   },
   "devDependencies": {
