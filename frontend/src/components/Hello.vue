@@ -19,7 +19,6 @@
         v-bind:soilMoisture="plant.soilMoisture">
       </plant-card>
     </div>
-    <!-- <h1>{{ msg }}</h1> -->
   </div>
 </template>
 
@@ -29,53 +28,90 @@ import PlantCard from './PlantCard.vue'
 
 export default {
   name: 'hello',
-  props: {
-    plants: {
-      type: Array,
-      default: function () {
-        return [
-          {
-            name: 'Fern',
-            temperature: '40c',
-            humidity: '39',
-            lightLevel: '.85',
-            soilMoisture: '.85'
-          },
-          {
-            name: 'AirPlant',
-            temperature: '40c',
-            humidity: '39',
-            lightLevel: '0.85',
-            soilMoisture: '0.85'
-          },
-          {
-            name: 'Room Plant',
-            temperature: '40c',
-            humidity: '39',
-            lightLevel: '.85',
-            soilMoisture: '.85'
-          },
-          {
-            name: 'Frontdoor Plant',
-            temperature: '40c',
-            humidity: '39',
-            lightLevel: '.85',
-            soilMoisture: '.85'
-          }
-        ]
-      }
-    }
-  },
   components: {
     'material-button': MaterialButton,
     'plant-card': PlantCard
-    // 'card-layout': MaterialButton
   },
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App'
+      plants: []
     }
+  },
+  methods: {
+    getPlantsFake () {
+      if (this.plants.length < 10) {
+        this.plants.push({
+          id: this.plants.length + 1,
+          name: 'Groot #' + (this.plants.length + 1),
+          temperature: '40c',
+          humidity: '39',
+          lightLevel: '.85',
+          soilMoisture: '.85'
+        })
+      }
+    },
+    doesPlantExist (id) {
+      return this.plants.some(function (item) {
+        return item.id === id
+      })
+    },
+    getPlants (callback) {
+      var xmlHttp = new XMLHttpRequest()
+      var baseURL = window.location.hostname
+      console.log('Setting HTTP get request to ' + baseURL + '/plants')
+      xmlHttp.onreadystatechange = () => {
+        if (xmlHttp.readyState === 4 && xmlHttp.status === 200) {
+          console.log(xmlHttp.responseText)
+          if (process.env.NODE_ENV === 'development') {
+            var p = [
+              {
+                id: 0,
+                name: 'Fern',
+                temperature: '40c',
+                humidity: '39',
+                lightLevel: '.85',
+                soilMoisture: '.85'
+              },
+              {
+                id: 43,
+                name: 'CantSeeMe',
+                temperature: '40c',
+                humidity: '39',
+                lightLevel: '.85',
+                soilMoisture: '.85'
+              }
+            ]
+            if (this.doesPlantExist(p[1].id) === false) {
+              this.plants.push(p[1])
+            }
+          } else {
+            var o = JSON.parse(xmlHttp.responseText)
+            if (o !== null) {
+              for (var i = 0; i < o.length; i++) {
+                if (this.doesPlantExist(o[i].id) === false) {
+                  this.plants.push(o[i])
+                }
+              }
+            }
+          }
+        }
+      }
+      xmlHttp.open('GET', '/plants', true) // true for asynchronous
+      xmlHttp.send(null)
+    }
+  },
+  mounted () {
+    console.log('Hello ready')
+    setInterval(function () {
+      if (process.env.NODE_ENV === 'development') {
+        this.getPlants(this)
+      } else {
+        this.getPlants(this)
+      }
+      console.log('Calling get plants')
+    }.bind(this), 3000)
   }
+
 }
 </script>
 
