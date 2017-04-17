@@ -12,6 +12,13 @@ enum RESP_TYPES {
     RESP_TIMEOUT = 1,
     RESP_FAILED = 1
 };
+
+struct plant_package_t {
+    uint16_t light;
+    uint16_t moisture;
+    uint16_t humidity;
+    uint16_t temp;
+};
 //
 // Hardware configuration
 // Configure the appropriate pins for your connections
@@ -38,7 +45,7 @@ const uint8_t pipes[][6] = {"Node0", "Node1", "Node2", "HUB"};
 const uint8_t ownPipe[6] = {"HUB"};
 
 
-RESP_TYPES  pingNode(const uint8_t * addr) {
+RESP_TYPES  pingNode(const uint8_t * addr, uint16_t maxTimeout) {
     radio.openWritingPipe(addr);
     radio.openReadingPipe(1, ownPipe);
 
@@ -63,7 +70,7 @@ RESP_TYPES  pingNode(const uint8_t * addr) {
     unsigned long started_waiting_at = millis();
     bool timeout = false;
     while ( ! radio.available() && ! timeout ) {
-        if (millis() - started_waiting_at > 250 )
+        if (millis() - started_waiting_at > maxTimeout )
             timeout = true;
     }
 
@@ -78,25 +85,22 @@ RESP_TYPES  pingNode(const uint8_t * addr) {
     {
         // Grab the response, compare, and send to debugging spew
         unsigned long got_time;
-        char c[6] = { 0 };
-        string packet;
-        packet = "HEY";
+        plant_package_t pkg;
         while(radio.available()) {
-            // radio.read( &got_time, sizeof(unsigned long) );
-            radio.read( c, 6 );
-            // packet += (c);
-            // printf("%c", c);
+            radio.read( &pkg, sizeof(plant_package_t) );
         }
 
         // Spew it
-        for (int i = 0; i < 5; i++) {
-            printf("0x%x ", c[i]);
-        }
+        cout << pkg.light << endl;
+        cout << pkg.moisture << endl;
+        cout << pkg.humidity << endl;
+        cout << pkg.temp << endl;
 
-        printf("\n");
-        // printf("Got response %lu, round-trip delay: %lu\n",got_time,millis()-got_time);
-        // cout << packet << endl;
-        // cout << endl;
+        // for (int i = 0; i < 5; i++) {
+        //     printf("0x%x ", c[i]);
+        // }
+
+        // printf("\n");
     }
 }
 
@@ -115,7 +119,7 @@ int main(int argc, char** argv) {
     // Dump the configuration of the rf unit for debugging
     // radio.printDetails();
 
-    if (pingNode((const uint8_t *)argv[1]) == RESP_OK) {
+    if (pingNode((const uint8_t *)argv[1], 800) == RESP_OK) {
         return 1;
     }
     else {
