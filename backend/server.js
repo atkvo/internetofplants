@@ -1,6 +1,7 @@
 'use strict';
 var path = require('path');
 var plantModel = require('./api/models/plantModel');
+var pollRate = 1500; // Attempt to poll every 1500ms
 
 global.appRoot = path.resolve(__dirname);
 
@@ -17,7 +18,7 @@ var routes = require('./api/routes/plantRoutes');
 
 setInterval(function() {
     plantModel.updateNodes();
-}, 1500);
+}, pollRate);
 
 routes(app);
 app.listen(port);

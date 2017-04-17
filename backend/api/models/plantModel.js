@@ -3,7 +3,8 @@
 var sqlite3 = require('sqlite3').verbose();
 var planter = require('./plantpinger.js');
 
-var db = new sqlite3.Database(':memory:');
+var dbName = 'plantdata.db'
+var db = new sqlite3.Database(dbName);
 
 var numUpdating = 0;
 
@@ -24,7 +25,7 @@ db.serialize(function() {
 function parseNodeResponse(raw) {
     var list = raw.split("\n").filter(function (v) { return v !== "" }).map(Number);
     for(let i = 0; i < list.length; i++) {
-        console.log(list[i]);
+        console.log(i + ': ' + list[i]);
     }
 }
 
