@@ -1,8 +1,12 @@
 'use strict';
 
 var sqlite3 = require('sqlite3').verbose();
+var planter = require('./plantpinger.js');
 
 var db = new sqlite3.Database(':memory:');
+
+var numUpdating = 0;
+
 db.serialize(function() {
     db.run("CREATE TABLE lorem (info TEXT)");
 
@@ -17,8 +21,31 @@ db.serialize(function() {
     });
 });
 
+function parseNodeResponse(raw) {
+    var list = raw.split("\n").filter(function (v) { return v !== "" }).map(Number);
+    for(let i = 0; i < list.length; i++) {
+        console.log(list[i]);
+    }
+}
+
 exports.getStuff = function() {
     db.each("SELECT rowid AS id, info FROM lorem", function(err, row) {
         console.log(row.id + ": " + row.info);
     });
+}
+
+exports.updateNodes = function() {
+    var availNodes = [ 'Node0', 'Node1' ];
+
+    if (numUpdating == 0) {
+        var timeoutInterval = 4000; // 4 seconds 
+        numUpdating = availNodes.length;
+
+        for (let i = 0; i < availNodes.length; i++) {
+            setTimeout(function () {
+                planter.pingNode(availNodes[i], (val) => { parseNodeResponse(val); });
+                numUpdating--;
+            }, timeoutInterval * i);
+        }
+    }
 }
