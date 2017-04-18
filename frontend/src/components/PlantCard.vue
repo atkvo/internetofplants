@@ -18,6 +18,10 @@ import PlantChart from './PlantChart.vue'
 export default {
   name: 'material-button',
   props: {
+    nodeID: {
+      type: String,
+      default: ''
+    },
     title: {
       type: String,
       default: 'Card Title'

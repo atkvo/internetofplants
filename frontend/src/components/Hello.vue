@@ -12,11 +12,12 @@
       <plant-card class="card"
         v-for="plant in plants"
         v-bind:key="plant"
-        v-bind:title="plant.name"
-        v-bind:temperature="plant.temperature"
-        v-bind:humidity="plant.humidity"
-        v-bind:lightLevel="plant.lightLevel"
-        v-bind:soilMoisture="plant.soilMoisture">
+        v-bind:title="plant.PlantName"
+        v-bind:nodeID="plant.NodeID"
+        v-bind:temperature="plant.Temperature"
+        v-bind:humidity="plant.Humidity"
+        v-bind:lightLevel="plant.Light"
+        v-bind:soilMoisture="plant.Moisture">
       </plant-card>
     </div>
   </div>
@@ -41,18 +42,18 @@ export default {
     getPlantsFake () {
       if (this.plants.length < 10) {
         this.plants.push({
-          id: this.plants.length + 1,
-          name: 'Groot #' + (this.plants.length + 1),
-          temperature: '40c',
-          humidity: '39',
-          lightLevel: '.85',
-          soilMoisture: '.85'
+          ID: this.plants.length + 1,
+          PlantName: 'fake',
+          Temperature: 0,
+          Humidity: 0,
+          Light: 0,
+          Moisture: 0
         })
       }
     },
-    doesPlantExist (id) {
+    doesPlantExist (nodeID) {
       return this.plants.some(function (item) {
-        return item.id === id
+        return item.NodeID === nodeID
       })
     },
     getPlants (callback) {
@@ -65,30 +66,35 @@ export default {
           if (process.env.NODE_ENV === 'development') {
             var p = [
               {
-                id: 0,
-                name: 'Fern',
-                temperature: '40c',
-                humidity: '39',
-                lightLevel: '.85',
-                soilMoisture: '.85'
+                Id: 0,
+                NodeID: 'Node2',
+                PlantName: 'Fern',
+                Temperature: '40c',
+                Humidity: '39',
+                Light: '.85',
+                Moisture: '.85'
               },
               {
-                id: 43,
-                name: 'CantSeeMe',
-                temperature: '40c',
-                humidity: '39',
-                lightLevel: '.85',
-                soilMoisture: '.85'
+                Id: 43,
+                NodeID: 'Node1',
+                PlantName: 'CantSeeMe',
+                Temperature: '40c',
+                Humidity: '39',
+                Light: '.85',
+                Moisture: '.85'
               }
             ]
-            if (this.doesPlantExist(p[1].id) === false) {
+            if (this.doesPlantExist(p[0].NodeID) === false) {
+              this.plants.push(p[0])
+            }
+            if (this.doesPlantExist(p[1].NodeID) === false) {
               this.plants.push(p[1])
             }
           } else {
             var o = JSON.parse(xmlHttp.responseText)
             if (o !== null) {
               for (var i = 0; i < o.length; i++) {
-                if (this.doesPlantExist(o[i].id) === false) {
+                if (this.doesPlantExist(o[i].NodeID) === false) {
                   this.plants.push(o[i])
                 }
               }
