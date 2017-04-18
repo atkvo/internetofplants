@@ -133,7 +133,7 @@ exports.getPlantDataPoint = function (nodeID, cb) {
         } else if (row.length > 0) {
             let id = row[0].ID;
             plant.PlantName = row[0].PlantName;
-            db.all("SELECT * FROM PlantData WHERE ID = (?)", id, (err, row) => {
+            db.all("SELECT * FROM PlantData WHERE ID = (?) ORDER BY Timestamp DESC", id, (err, row) => {
                 cb(Object.assign(plant, row[0]));
             });
         }
