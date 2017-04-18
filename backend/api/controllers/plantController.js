@@ -84,7 +84,7 @@ exports.getPlantDataPoint = function (req, res) {
 
 exports.getPlantHistory = function (req, res) {
     if (req.query.NodeID !== undefined) {
-        model.getPlantDataPoint(req.query.NodeID, (data) => {
+        model.getPlantDataHistory(req.query.NodeID, (data) => {
             res.json(data);
         });
     }
