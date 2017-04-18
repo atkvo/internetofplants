@@ -2,7 +2,7 @@
 
 var model = require('../models/plantModel');
 
-function getFakePlants() {
+function getFakePlants () {
     var samplePlants = [
         {
             id: 0,
@@ -40,12 +40,19 @@ function getFakePlants() {
     return samplePlants;
 }
 
-exports.getPlants = function(req, res) {
-    res.json(getFakePlants());
+exports.getPlants = function (req, res) {
+    model.getAvailableNodes(function (nodes) {
+        res.json(nodes);
+    });
+    // res.json(model);
 };
 
-exports.addPlant = function(req, res) {
-    // console.log(req.body);
-    console.log(model.getStuff());
-    res.json(req.body);
+exports.addPlant = function (req, res) {
+    console.log(req.body);
+    // console.log(model.getStuff());
+    // res.json(req.body);
 }
+
+// exports.addFakes = function (req, res) {
+//     model.parseNodeResponse("Node1", "44\n55\n66\n88\n");
+// }
