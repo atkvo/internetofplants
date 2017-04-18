@@ -190,7 +190,7 @@ exports.updateNodes = function () {
 
         for (let i = 0; i < availNodes.length; i++) {
             setTimeout(function () {
-                planter.pingNode(availNodes[i], (val) => { parseNodeResponse(val); });
+                planter.pingNode(availNodes[i], (val) => { parseNodeResponse(availNodes[i], val); });
                 numUpdating--;
             }, timeoutInterval * i);
         }
