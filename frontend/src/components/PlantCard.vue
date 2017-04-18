@@ -9,7 +9,7 @@
     <p>Humidity: <span>{{ humidity }}</span></p>
     <p>Light level: <span>{{ lightLevel }}</span></p>
     <p>Soil Moisture: <span>{{ soilMoisture }}</span></p>
-    <button class="material-clickable-text" id="refresh" @click="addData()">Refresh</button>
+    <button class="material-clickable-text" id="refresh" @click="requestPlantData()">Refresh</button>
   </div>
 </template>  
 
@@ -67,6 +67,26 @@ export default {
           }
         ]
       }
+    },
+    requestPlantData () {
+      var xmlHttp = new XMLHttpRequest()
+      // var baseURL = window.location.hostname
+      xmlHttp.onreadystatechange = () => {
+        if (xmlHttp.readyState === 4 && xmlHttp.status === 200) {
+          console.log(xmlHttp.responseText)
+          var o = JSON.parse(xmlHttp.responseText)
+          if (o !== null) {
+            this.title = o.PlantName
+            this.lightLevel = o.Light
+            this.humidity = o.Humidity
+            this.soilMoisture = o.Moisture
+            this.temperature = o.Temperature
+          }
+        }
+      }
+      var params = 'NodeID=' + this.nodeID
+      xmlHttp.open('GET', '/plants/currentdata' + '?' + params, true) // true for asynchronous
+      xmlHttp.send(null)
     },
     getRandomInt () {
       return Math.floor(Math.random() * (50 - 5 + 1)) + 5
