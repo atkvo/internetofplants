@@ -48,9 +48,16 @@ exports.getPlants = function (req, res) {
 };
 
 exports.addPlant = function (req, res) {
-    console.log(req.body);
-    // console.log(model.getStuff());
-    // res.json(req.body);
+    if (req.body.NodeID !== undefined) {
+        var plantName = req.body.PlantName === undefined ? '' : req.body.PlantName;
+        model.addPlantNode(req.body.NodeID, req.body.PlantName, (err) => {
+            if (err) {
+                res.json(Object.assign(req.body, err));
+            } else {
+                res.json(Object.assign(req.body, { AddStatus: 'OK' }));
+            }
+        });
+    }
 }
 
 // exports.addFakes = function (req, res) {
