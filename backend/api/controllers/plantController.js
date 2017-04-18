@@ -72,6 +72,15 @@ exports.updatePlantName = function (req, res) {
         });
     }
 }
+
+exports.getPlantDataPoint = function (req, res) {
+    console.log(req.query)
+    if (req.query.NodeID !== undefined) {
+        model.getPlantDataPoint(req.query.NodeID, (data) => {
+            res.json(data);
+        });
+    }
+}
 // exports.addFakes = function (req, res) {
 //     model.parseNodeResponse("Node1", "44\n55\n66\n88\n");
 // }

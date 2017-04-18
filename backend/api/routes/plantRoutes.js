@@ -8,4 +8,6 @@ module.exports = function(app) {
         .post(iop.addPlant);
     app.route('/plants/updatename') 
         .post(iop.updatePlantName);
+    app.route('/plants/currentdata') 
+        .get(iop.getPlantDataPoint);
 };
