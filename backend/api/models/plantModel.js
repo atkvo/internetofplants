@@ -53,14 +53,16 @@ function parseNodeResponse (nodeID, raw) {
 
     var list = raw.split("\n").filter(function (v) { return v !== "" }).map(Number);
     var plant = createPlantObject(nodeID);
+
     if (list.length >= 4) {
         plant.Light = list[0];
         plant.Moisture = list[1];
         plant.Humidity = list[2];
         plant.Temperature = list[3];
+
+        insertPlantData(plant);
     }
 
-    insertPlantData(plant);
 }
 
 function insertPlantData (plant) {
@@ -105,12 +107,10 @@ exports.updatePlantName = function (nodeID, plantName, cb) {
 //        }
 //      ]
 exports.getAvailableNodes = function (cb) {
-    console.log("Getting all nodes");
     db.all("SELECT * from PlantNodes", function(err, row) {
         if (err) {
             console.log(err);
         } else {
-            console.log(row);
             cb(row);
         }
     });
@@ -164,6 +164,7 @@ exports.getPlantDataHistory = function (nodeID, cb) {
             plant.PlantName = row[0].PlantName;
             db.each("SELECT * FROM PlantData WHERE ID = (?)", id,
                 (err, row) => {
+                    console.log(row);
                     var datapoint = {
                         Light: row.Light,
                         Moisture: row.Moisture,
