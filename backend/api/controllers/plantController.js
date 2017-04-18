@@ -60,6 +60,18 @@ exports.addPlant = function (req, res) {
     }
 }
 
+exports.updatePlantName = function (req, res) {
+    if (req.body.NodeID !== undefined) {
+        var plantName = req.body.PlantName === undefined ? '' : req.body.PlantName;
+        model.updatePlantName(req.body.NodeID, req.body.PlantName, (err) => {
+            if (err) {
+                res.json(Object.assign(req.body, err));
+            } else {
+                res.json(Object.assign(req.body, { UpdateStatus: 'OK' }));
+            }
+        });
+    }
+}
 // exports.addFakes = function (req, res) {
 //     model.parseNodeResponse("Node1", "44\n55\n66\n88\n");
 // }

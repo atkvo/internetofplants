@@ -6,4 +6,6 @@ module.exports = function(app) {
     app.route('/plants') 
         .get(iop.getPlants)
         .post(iop.addPlant);
+    app.route('/plants/updatename') 
+        .post(iop.updatePlantName);
 };

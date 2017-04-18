@@ -89,11 +89,11 @@ exports.addPlantNode = function (nodeID, plantName, cb) {
     addPlantNode(nodeID, plantName, cb);
 }
 
-exports.updatePlantName = function (nodeID, plantName) {
+exports.updatePlantName = function (nodeID, plantName, cb) {
     db.run("UPDATE PlantNodes \
         SET PlantName = (?) \
         WHERE NodeID == (?)",
-        plantName, nodeID);
+        plantName, nodeID, cb);
 }
 
 // Callback is called with array parameter:
