@@ -64,15 +64,36 @@ function parseNodeResponse (nodeID, raw) {
 }
 
 function insertPlantData (plant) {
-    db.all("SELECT ID from PlantNodes WHERE nodeID == (?)", plant.NodeID, function (err, row) {
+    db.all("SELECT ID from PlantNodes WHERE nodeID == (?)", plant.NodeID, (err, row) => {
         if (err) {
             console.log("error getting plantID");
         } else if (row.length > 0) {
             let id = row[0].ID;
+            console.log("ID ok: ", id)
             db.run("INSERT INTO PlantData (ID, Light, Moisture, Humidity, Temperature) VALUES (?, ? ,?, ?, ?)",
                 id, plant.Light, plant.Moisture, plant.Humidity, plant.Temperature);
+        } else {
+            console.log("Plant NodeID doesn't exist yet");
+            addPlantNode(plant.NodeID, "Unnamed");
+            insertPlantData(plant);
         }
     });
+}
+
+function addPlantNode (nodeID, plantName, cb) {
+    db.run("INSERT INTO PlantNodes (NodeID, PlantName) VALUES (?, ?)",
+        nodeID, plantName, cb);
+}
+
+exports.addPlantNode = function (nodeID, plantName, cb) {
+    addPlantNode(nodeID, plantName, cb);
+}
+
+exports.updatePlantName = function (nodeID, plantName) {
+    db.run("UPDATE PlantNodes \
+        SET PlantName = (?) \
+        WHERE NodeID == (?)",
+        plantName, nodeID);
 }
 
 // Callback is called with array parameter:
@@ -84,10 +105,12 @@ function insertPlantData (plant) {
 //        }
 //      ]
 exports.getAvailableNodes = function (cb) {
+    console.log("Getting all nodes");
     db.all("SELECT * from PlantNodes", function(err, row) {
         if (err) {
             console.log(err);
         } else {
+            console.log(row);
             cb(row);
         }
     });
@@ -157,6 +180,7 @@ exports.getPlantDataHistory = function (nodeID, cb) {
         }
     });
 }
+
 exports.updateNodes = function () {
     var availNodes = [ 'Node0', 'Node1' ];
 
